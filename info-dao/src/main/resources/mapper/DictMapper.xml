@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.DictDao">
+
+    <resultMap id="dictResultMap" type="com.info.manage.entity.Dict">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="DICT_NAME" property="dictName" jdbcType="VARCHAR"/>
+        <result column="DICT_CODE" property="dictCode" jdbcType="VARCHAR"/>
+        <result column="DICT_STATUS" property="dictStatus" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="DictBaseColumn">
+        SELECT ID, DICT_NAME, DICT_CODE, DICT_STATUS, CREATE_TIME, CREATER_ID
+        FROM T_INFO_DICT
+    </sql>
+
+    <select id="findDictByDictCode" parameterType="java.lang.String" resultMap="dictResultMap">
+        <include refid="DictBaseColumn"/>
+        WHERE DICT_CODE = #{dictCode}
+    </select>
+
+    <select id="findDictList" parameterType="com.info.manage.form.DictForm" resultMap="dictResultMap">
+        <include refid="DictBaseColumn"/>
+        <where>
+            <if test="dictCode != null and dictCode != '' " >
+                AND DICT_CODE = #{dictCode}
+            </if>
+            <if test="dictStatus != null and dictStatus != '' ">
+                AND DICT_STATUS = #{dictStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

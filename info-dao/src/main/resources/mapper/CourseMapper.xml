@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.CourseDao">
+
+    <resultMap id="BaseResultMap" type="com.info.manage.entity.InfoCourse">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
+        <result column="course_no" jdbcType="VARCHAR" property="courseNo"/>
+        <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        <result column="course_remark" jdbcType="VARCHAR" property="courseRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updater_id" jdbcType="BIGINT" property="updaterId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,teacher_id, course_no, course_name, course_remark, create_time, creater_id,
+        update_time, updater_id
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_course
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findCourseList" resultMap="BaseResultMap" parameterType="com.info.manage.entity.InfoCourse">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_course
+        <where>
+            <if test="courseNo != null and courseNo != '' ">
+                AND course_no LIKE CONCAT('%', #{courseNo}, '%')
+            </if>
+            <if test="courseName != null and courseName != '' ">
+                AND course_name LIKE CONCAT('%', #{courseName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findInfoCourse" parameterType="com.info.manage.entity.InfoCourse" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_course
+        <where>
+            <if test="courseName != null and courseName != '' ">
+                AND course_name = #{courseName}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_info_course
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteCourseBatch">
+        DELETE FROM T_INFO_COURSE WHERE ID IN
+        <foreach collection="ids" item="ids" index="index" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+
+    <insert id="insert" parameterType="com.info.manage.entity.InfoCourse">
+        insert into t_info_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">
+                teacher_id,
+            </if>
+            <if test="courseNo != null">
+                course_no,
+            </if>
+            <if test="courseName != null">
+                course_name,
+            </if>
+            <if test="courseRemark != null">
+                course_remark ,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">
+                #{teacherId,jdbcType=BIGINT},
+            </if>
+            <if test="courseNo != null">
+                #{courseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null">
+                #{courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseRemark != null">
+                #{courseRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.info.manage.entity.InfoCourse">
+        update t_info_course
+        <set>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId,jdbcType=BIGINT},
+            </if>
+            <if test="courseNo != null">
+                course_no = #{courseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null">
+                course_name = #{courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseRemark != null">
+                course_remark = #{courseRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updaterId != null">
+                updater_id = #{updaterId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

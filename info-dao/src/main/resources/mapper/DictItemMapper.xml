@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.DictItemDao">
+
+    <resultMap type="com.info.manage.entity.DictItem" id="dictItemResultMap">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="DICT_CODE" property="dictCode" jdbcType="VARCHAR"/>
+        <result column="DICT_ITEM_NAME" property="dictItemName" jdbcType="VARCHAR"/>
+        <result column="DICT_ITEM_CODE" property="dictItemCode" jdbcType="VARCHAR"/>
+        <result column="DICT_ITEM_STATUS" property="dictItemStatus" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="DictItemBaseColumn">
+        SELECT ID, DICT_CODE, DICT_ITEM_CODE, DICT_ITEM_NAME, DICT_ITEM_STATUS, CREATE_TIME, CREATER_ID
+        FROM T_INFO_DICT_ITEM T
+    </sql>
+
+    <select id="findDictItemListByDictCode" parameterType="java.lang.String" resultMap="dictItemResultMap">
+        <include refid="DictItemBaseColumn"/>
+         WHERE  DICT_CODE = #{dictCode}
+    </select>
+
+    <select id="findDictItemByDictCodeAndItemCode" resultMap="dictItemResultMap">
+        <include refid="DictItemBaseColumn"/>
+        WHERE DICT_CODE = #{dictCode} AND DICT_ITEM_CODE = #{itemCode}
+    </select>
+
+    <select id="findDictItemCodeByItemName" resultMap="dictItemResultMap">
+        <include refid="DictItemBaseColumn"/>
+        WHERE DICT_CODE = #{dictCode} AND DICT_ITEM_NAME = #{dictItemName}
+    </select>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.UserRoleDao">
+
+    <resultMap id="BaseResultMap" type="com.info.manage.entity.UserRole">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, role_id
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_user_role
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_info_user_role
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="findUserRoleListByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_user_role where user_id = #{userId}
+    </select>
+
+    <insert id="saveUserRole">
+        INSERT INTO T_INFO_USER_ROLE ( ROLE_ID, USER_ID)VALUES
+        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+            (#{roleId}, #{userId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserRoleByUserIds" parameterType="java.lang.Long">
+        DELETE FROM T_INFO_USER_ROLE WHERE USER_ID IN
+        <foreach collection="userIds" index="index" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserRoleByRoleIds">
+        DELETE FROM T_INFO_USER_ROLE WHERE ROLE_ID IN
+        <foreach collection="roleIds" index="index" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+</mapper>

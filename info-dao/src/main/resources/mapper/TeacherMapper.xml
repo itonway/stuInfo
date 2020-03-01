@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.TeacherDao">
+    <resultMap id="BaseResultMap" type="com.info.manage.entity.InfoTeacher">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="teacher_no" jdbcType="VARCHAR" property="teacherNo"/>
+        <result column="teacher_name" jdbcType="VARCHAR" property="teacherName"/>
+        <result column="teacher_password" jdbcType="VARCHAR" property="teacherPassword"/>
+        <result column="teacher_card" jdbcType="VARCHAR" property="teacherCard"/>
+        <result column="teacher_sex" jdbcType="VARCHAR" property="teacherSex"/>
+        <result column="teacher_birth_date" jdbcType="DATE" property="teacherBirthDate"/>
+        <result column="teacher_mobile" jdbcType="VARCHAR" property="teacherMobile"/>
+        <result column="teacher_email" jdbcType="VARCHAR" property="teacherEmail"/>
+        <result column="teacher_address" jdbcType="VARCHAR" property="teacherAddress"/>
+        <result column="start_job_date" jdbcType="DATE" property="startJobDate"/>
+        <result column="end_job_date" jdbcType="DATE" property="endJobDate"/>
+        <result column="teacher_status" jdbcType="VARCHAR" property="teacherStatus"/>
+        <result column="teacher_remark" jdbcType="VARCHAR" property="teacherRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updater_id" jdbcType="BIGINT" property="updaterId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, teacher_no, teacher_name, teacher_password, teacher_card, teacher_sex, teacher_birth_date,
+    teacher_mobile, teacher_email, teacher_address, start_job_date, end_job_date, teacher_status, 
+    teacher_remark, create_time, creater_id, update_time, updater_id
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_teacher
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findTeacherList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_teacher
+        <where>
+            <if test="teacherName != null and teacherName != ''">
+                AND TEACHER_NAME LIKE CONCAT('%', #{teacherName}, '%')
+            </if>
+            <if test="teacherSex != null and teacherSex != ''">
+                AND TEACHER_SEX = #{teacherSex}
+            </if>
+            <if test="startJobDate != null ">
+                AND START_JOB_DATE &gt;= #{startJobDate}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_info_teacher
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteTeacherBatch">
+        DELETE FROM T_INFO_TEACHER WHERE ID IN
+        <foreach collection="ids" item="ids" index="index" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="com.info.manage.entity.InfoTeacher">
+        insert into t_info_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherNo != null">
+                teacher_no,
+            </if>
+            <if test="teacherName != null">
+                teacher_name,
+            </if>
+            <if test="teacherPassword != null">
+                teacher_password,
+            </if>
+            <if test="teacherCard != null">
+                teacher_card,
+            </if>
+            <if test="teacherSex != null">
+                teacher_sex,
+            </if>
+            <if test="teacherBirthDate != null">
+                teacher_birth_date,
+            </if>
+            <if test="teacherMobile != null">
+                teacher_mobile,
+            </if>
+            <if test="teacherEmail != null">
+                teacher_email,
+            </if>
+            <if test="teacherAddress != null">
+                teacher_address,
+            </if>
+            <if test="startJobDate != null">
+                start_job_date,
+            </if>
+            <if test="endJobDate != null">
+                end_job_date,
+            </if>
+            <if test="teacherStatus != null">
+                teacher_status,
+            </if>
+            <if test="teacherRemark != null">
+                teacher_remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherNo != null">
+                #{teacherNo,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherName != null">
+                #{teacherName,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherPassword != null">
+                #{teacherPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherCard != null">
+                #{teacherCard,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherSex != null">
+                #{teacherSex,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherBirthDate != null">
+                #{teacherBirthDate,jdbcType=DATE},
+            </if>
+            <if test="teacherMobile != null">
+                #{teacherMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherEmail != null">
+                #{teacherEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherAddress != null">
+                #{teacherAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="startJobDate != null">
+                #{startJobDate,jdbcType=DATE},
+            </if>
+            <if test="endJobDate != null">
+                #{endJobDate,jdbcType=DATE},
+            </if>
+            <if test="teacherStatus != null">
+                #{teacherStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherRemark != null">
+                #{teacherRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.info.manage.entity.InfoTeacher">
+        update t_info_teacher
+        <set>
+            <if test="teacherNo != null">
+                teacher_no = #{teacherNo,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherName != null">
+                teacher_name = #{teacherName,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherPassword != null">
+                teacher_password = #{teacherPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherCard != null">
+                teacher_card = #{teacherCard,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherSex != null">
+                teacher_sex = #{teacherSex,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherBirthDate != null">
+                teacher_birth_date = #{teacherBirthDate,jdbcType=DATE},
+            </if>
+            <if test="teacherMobile != null">
+                teacher_mobile = #{teacherMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherEmail != null">
+                teacher_email = #{teacherEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherAddress != null">
+                teacher_address = #{teacherAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="startJobDate != null">
+                start_job_date = #{startJobDate,jdbcType=DATE},
+            </if>
+            <if test="endJobDate != null">
+                end_job_date = #{endJobDate,jdbcType=DATE},
+            </if>
+            <if test="teacherStatus != null">
+                teacher_status = #{teacherStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="teacherRemark != null">
+                teacher_remark = #{teacherRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updaterId != null">
+                updater_id = #{updaterId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

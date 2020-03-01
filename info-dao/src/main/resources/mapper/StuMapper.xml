@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.StuDao">
+
+    <resultMap id="BaseResultMap" type="com.info.manage.entity.InfoStu">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="class_id" jdbcType="BIGINT" property="classId"/>
+        <result column="class_no" jdbcType="VARCHAR" property="classNo"/>
+        <result column="stu_no" jdbcType="VARCHAR" property="stuNo"/>
+        <result column="stu_name" jdbcType="VARCHAR" property="stuName"/>
+        <result column="stu_birth_date" jdbcType="DATE" property="stuBirthDate"/>
+        <result column="stu_age" jdbcType="INTEGER" property="stuAge"/>
+        <result column="stu_card" jdbcType="VARCHAR" property="stuCard"/>
+        <result column="stu_sex" jdbcType="VARCHAR" property="stuSex"/>
+        <result column="stu_email" jdbcType="VARCHAR" property="stuEmail"/>
+        <result column="stu_mobile" jdbcType="VARCHAR" property="stuMobile"/>
+        <result column="stu_address" jdbcType="VARCHAR" property="stuAddress"/>
+        <result column="stu_start_date" jdbcType="DATE" property="stuStartDate"/>
+        <result column="stu_end_date" jdbcType="DATE" property="stuEndDate"/>
+        <result column="stu_status" jdbcType="VARCHAR" property="stuStatus"/>
+        <result column="stu_remark" jdbcType="VARCHAR" property="stuRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updater_id" jdbcType="BIGINT" property="updaterId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, class_id,class_no, stu_no, stu_name, stu_birth_date, stu_age, stu_card, stu_sex, stu_email,
+    stu_mobile, stu_address, stu_start_date, stu_end_date, stu_status, stu_remark, create_time,
+    creater_id, update_time, updater_id
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_stu
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findStuList" parameterType="com.info.manage.entity.InfoStu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_stu
+        <where>
+            <if test="stuName != null and stuName != ''">
+                AND STU_NAME LIKE CONCAT('%', #{stuName}, '%')
+            </if>
+            <if test="stuSex != null and stuSex != ''">
+                AND STU_SEX = #{stuSex}
+            </if>
+            <if test="stuStartDate != null ">
+                AND STU_START_DATE &gt;= #{stuStartDate}
+            </if>
+            <if test="classNo != null and classNo != ''">
+                AND CLASS_NO = #{classNo}
+            </if>
+            <if test="classId != null ">
+                AND CLASS_ID = #{classId}
+            </if>
+            <if test="assignClassId != null ">
+                AND NOT EXISTS (SELECT 1 FROM T_INFO_CLASS WHERE ID = #{assignClassId} AND CLASS_ID = ID)
+            </if>
+            <if test="classIds != null ">
+                AND CLASS_ID IN
+                <foreach collection="classIds" index="index" item="classIds" open="(" separator="," close=")">
+                    #{classIds}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="findInfoStu" parameterType="com.info.manage.entity.InfoStu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_stu
+        <where>
+            <if test="stuNo != null and stuNo != ''">
+                AND STU_NO = #{stuNo}
+            </if>
+        </where>
+
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_info_stu
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteStuBatch">
+        DELETE FROM T_INFO_STU WHERE ID IN
+        <foreach collection="ids" index="index" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByClassIds">
+        DELETE FROM T_INFO_STU WHERE CLASS_ID IN
+        <foreach collection="classIds" index="index" item="classId" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </delete>
+
+
+    <insert id="insert" parameterType="com.info.manage.entity.InfoStu">
+        insert into t_info_stu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="classId != null">
+                class_id,
+            </if>
+            <if test="stuNo != null">
+                stu_no,
+            </if>
+            <if test="stuName != null">
+                stu_name,
+            </if>
+            <if test="stuBirthDate != null">
+                stu_birth_date,
+            </if>
+            <if test="stuAge != null">
+                stu_age,
+            </if>
+            <if test="stuCard != null">
+                stu_card,
+            </if>
+            <if test="stuSex != null">
+                stu_sex,
+            </if>
+            <if test="stuEmail != null">
+                stu_email,
+            </if>
+            <if test="stuMobile != null">
+                stu_mobile,
+            </if>
+            <if test="stuAddress != null">
+                stu_address,
+            </if>
+            <if test="stuStartDate != null">
+                stu_start_date,
+            </if>
+            <if test="stuEndDate != null">
+                stu_end_date,
+            </if>
+            <if test="stuStatus != null">
+                stu_status,
+            </if>
+            <if test="stuRemark != null">
+                stu_remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="classId != null">
+                #{classId,jdbcType=BIGINT},
+            </if>
+            <if test="stuNo != null">
+                #{stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="stuName != null">
+                #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuBirthDate != null">
+                #{stuBirthDate,jdbcType=DATE},
+            </if>
+            <if test="stuAge != null">
+                #{stuAge,jdbcType=INTEGER},
+            </if>
+            <if test="stuCard != null">
+                #{stuCard,jdbcType=VARCHAR},
+            </if>
+            <if test="stuSex != null">
+                #{stuSex,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEmail != null">
+                #{stuEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMobile != null">
+                #{stuMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="stuAddress != null">
+                #{stuAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="stuStartDate != null">
+                #{stuStartDate,jdbcType=DATE},
+            </if>
+            <if test="stuEndDate != null">
+                #{stuEndDate,jdbcType=DATE},
+            </if>
+            <if test="stuStatus != null">
+                #{stuStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="stuRemark != null">
+                #{stuRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.info.manage.entity.InfoStu">
+        update t_info_stu
+        <set>
+            <if test="classId != null">
+                class_id = #{classId,jdbcType=BIGINT},
+            </if>
+            <if test="stuNo != null">
+                stu_no = #{stuNo,jdbcType=VARCHAR},
+            </if>
+            <if test="stuName != null">
+                stu_name = #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuBirthDate != null">
+                stu_birth_date = #{stuBirthDate,jdbcType=DATE},
+            </if>
+            <if test="stuAge != null">
+                stu_age = #{stuAge,jdbcType=INTEGER},
+            </if>
+            <if test="stuCard != null">
+                stu_card = #{stuCard,jdbcType=VARCHAR},
+            </if>
+            <if test="stuSex != null">
+                stu_sex = #{stuSex,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEmail != null">
+                stu_email = #{stuEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMobile != null">
+                stu_mobile = #{stuMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="stuAddress != null">
+                stu_address = #{stuAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="stuStartDate != null">
+                stu_start_date = #{stuStartDate,jdbcType=DATE},
+            </if>
+            <if test="stuEndDate != null">
+                stu_end_date = #{stuEndDate,jdbcType=DATE},
+            </if>
+            <if test="stuStatus != null">
+                stu_status = #{stuStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="stuRemark != null">
+                stu_remark = #{stuRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updaterId != null">
+                updater_id = #{updaterId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

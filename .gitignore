@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+### xieglIgnore template
+
+.idea
+logs
+/info-common/.mvn
+/info-entity/.mvn
+/info-service/.mvn
+/info-dao/.mvn
+/info-web/logs
+/info-web/mvnw
+/info-web/mvnw.cmd
+/info-web/src/test

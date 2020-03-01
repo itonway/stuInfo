@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.info.manage.dao.ClassDao">
+
+    <resultMap id="BaseResultMap" type="com.info.manage.entity.InfoClass">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="class_no" jdbcType="VARCHAR" property="classNo"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="class_remark" jdbcType="VARCHAR" property="classRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updater_id" jdbcType="BIGINT" property="updaterId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, class_no, class_name,class_remark, create_time, creater_id, update_time, updater_id
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_class
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findClassList" resultMap="BaseResultMap" parameterType="com.info.manage.entity.InfoClass">
+        select
+        <include refid="Base_Column_List"/>
+        from t_info_class
+        <where>
+            <if test="classNo != null and classNo != '' ">
+                AND CLASS_NO LIKE CONCAT('%', #{classNo}, '%')
+            </if>
+            <if test="className != null and className != '' ">
+                AND CLASS_NAME LIKE CONCAT('%', #{className}, '%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_info_class
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteClassBatch">
+        DELETE FROM T_INFO_CLASS WHERE ID IN
+        <foreach collection="ids" item="ids" index="index" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+
+    <insert id="insert" parameterType="com.info.manage.entity.InfoClass">
+        insert into t_info_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classNo != null">
+                class_no,
+            </if>
+            <if test="className != null">
+                class_name,
+            </if>
+            <if test="classRemark != null">
+                class_remark,
+            </if>
+            create_time,
+            <if test="createrId != null">
+                creater_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classNo != null">
+                #{classNo,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="classRemark != null">
+                #{classRemark,jdbcType=VARCHAR},
+            </if>
+            NOW(),
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.info.manage.entity.InfoClass">
+        update t_info_class
+        <set>
+            <if test="classNo != null">
+                class_no = #{classNo,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                class_name = #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="classRemark != null">
+                class_remark = #{classRemark,jdbcType=VARCHAR},
+            </if>
+            update_time = NOW(),
+            <if test="updaterId != null">
+                updater_id = #{updaterId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>
