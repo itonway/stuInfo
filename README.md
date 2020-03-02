@@ -1,4 +1,5 @@
-# info\\
+IT 学习永无止境，我们一直在路上 itontheway   
+
 项目简介：
 该项目为学生信息管理系统，主要包含用户管理，角色管理，菜单管理，学生管理，班级管理等。   
 后端技术：  
@@ -56,16 +57,19 @@ js 放在  info-web\src\main\resources\static\js
 班级管理页面：
 ![image](https://github.com/itonway/stuInfo/blob/master/info-web/src/main/resources/image/bj.png)
 
-课程管理页面：
+课程管理页面： 
 ![image](https://github.com/itonway/stuInfo/blob/master/info-web/src/main/resources/image/kc.png)
 
-教师管理页面：
+教师管理页面： 
 ![image](https://github.com/itonway/stuInfo/blob/master/info-web/src/main/resources/image/ls.png)
 
-成绩管理页面：
+成绩管理页面：  
 ![image](https://github.com/itonway/stuInfo/blob/master/info-web/src/main/resources/image/cj.png)
 
 
+其他资料  
+欢迎关注公众号 itontheway，专注于 SpringBoot springCloud redis mongodb MQ jvm docker k8s vue angularjs es6等，根据项目中的实际使用方式，每天更新有价值的实战例子文章。  
+![image](https://github.com/itonway/stuInfo/blob/master/info-web/src/main/resources/image/b.png)
 
 
 
