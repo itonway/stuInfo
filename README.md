@@ -30,5 +30,31 @@ js 放在  info-web\src\main\resources\static\js
 首页：
 ![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/sy.png)
 
+用户管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/yh.png)
+
+角色管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/js.png)
+
+菜单管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/cd.png)
+
+学生管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/xs.png)
+
+班级管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/bj.png)
+
+课程管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/kc.png)
+
+教师管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/ls.png)
+
+成绩管理页面：
+![image](https://github.com/learnItOnTheWay/stuInfo/tree/master/info-web/src/main/resources/image/cj.png)
+
+
+
 
 
